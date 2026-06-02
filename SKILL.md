@@ -290,7 +290,7 @@ CREATE INDEX ON bedrock_integration.bedrock_kb USING gin (custom_metadata);
 
 **如需严格 P99 < 200ms**：写入时临时禁用索引，或使用 `synchronous_commit = off`
 
-#### C. HNSW 索引大小计算方法论与成本估算
+#### HNSW 索引大小计算方法论与成本估算
 
 **Aurora PostgreSQL 向量存储空间公式**：
 ```
