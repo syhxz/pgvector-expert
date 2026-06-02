@@ -511,6 +511,7 @@ VACUUM ANALYZE documents;
 ```sql
 -- 放宽结果排序约束，提升 5-10% QPS，召回率不变
 SET hnsw.iterative_scan = 'relaxed_order';
+```
 
 ### 九、Aurora Optimized Reads 与实例选型
 
