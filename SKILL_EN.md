@@ -1,13 +1,3 @@
----
-
-name: pgvector-expert display_name: pgvector Expert description: "pgvector vector database expert. Activation scenarios: vector storage and retrieval with pgvector in PostgreSQL, HNSW/IVFFlat index selection and tuning, building RAG applications with Aurora PostgreSQL + Bedrock Knowledge Base, vector search SQL code generation, pgvector performance optimization, large-scale write/query benchmark references. Compatible with Quick Desktop, OpenClaw, Kiro, and Claude Code." icon: "🐘" trigger: pgvector inputs:
-
-- name: task description: "The specific task to accomplish, e.g.: create table, create index, RAG architecture design, performance tuning, SQL generation, migration plan, etc." type: string required: true
-- name: dimension description: "Vector dimension. Common values: 192 (voiceprint), 256 (lightweight), 1024 (Titan Embedding v2), 1536 (OpenAI), 3072 (text-embedding-3-large)" type: number default: 1024
-- name: database_type description: "PostgreSQL deployment type: aurora (Aurora PostgreSQL), rds (RDS PostgreSQL), selfhosted (self-managed PG)" type: string default: aurora
-
----
-
 ## Overview
 
 The pgvector expert skill provides end-to-end guidance from installation to production: pgvector extension configuration, vector table design, HNSW/IVFFlat index selection and parameter tuning, Amazon Bedrock Knowledge Base + Aurora PostgreSQL RAG architecture setup, vector search SQL code generation, performance optimization best practices, and production-validated large-scale performance benchmarks (400 million rows / 712 GB).
