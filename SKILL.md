@@ -507,6 +507,10 @@ SELECT * FROM documents ORDER BY embedding <=> '[...]' LIMIT 10;
 REINDEX INDEX CONCURRENTLY documents_embedding_idx;
 VACUUM ANALYZE documents;
 ```
+6. **启用 relaxed_order 模式**（HNSW 场景，pgvector 0.8.0+）：
+```sql
+-- 放宽结果排序约束，提升 5-10% QPS，召回率不变
+SET hnsw.iterative_scan = 'relaxed_order';
 
 ### 九、Aurora Optimized Reads 与实例选型
 
