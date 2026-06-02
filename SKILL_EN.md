@@ -512,7 +512,7 @@ SET max_parallel_maintenance_workers = 7;
 
 ```
 
-1. **Quantization Acceleration** (large-scale scenarios):
+2. **Quantization Acceleration** (large-scale scenarios):
 
 ```sql
 ALTER TABLE documents ALTER COLUMN embedding TYPE halfvec(1024);
@@ -520,7 +520,7 @@ CREATE INDEX ON documents USING hnsw ((embedding::halfvec(1024)) halfvec_cosine_
 
 ```
 
-1. **IVFFlat lists Parameter Calibration**:
+3. **IVFFlat lists Parameter Calibration**:
 
 ```sql
 -- 400M rows: recommended sqrt(400000000) ≈ 20000 (current lists=100 is too small)
@@ -529,7 +529,7 @@ CREATE INDEX ON voice_info USING ivfflat (embed vector_cosine_ops) WITH (lists =
 
 ```
 
-1. **Monitor Query Performance**:
+4. **Monitor Query Performance**:
 
 ```sql
 EXPLAIN (ANALYZE, BUFFERS)
@@ -538,13 +538,18 @@ SELECT * FROM documents ORDER BY embedding <=> '[...]' LIMIT 10;
 
 ```
 
-1. **Regular Maintenance**:
+5. **Regular Maintenance**:
 
 ```sql
 -- IVFFlat requires periodic rebuild (when data changes > 20%)
 REINDEX INDEX CONCURRENTLY documents_embedding_idx;
 VACUUM ANALYZE documents;
 
+```
+6. **Enable relaxed_order Mode** (HNSW, pgvector 0.8.0+):
+```sql
+-- Relax result ordering constraints, improves QPS by 5-10% with no recall loss
+SET hnsw.iterative_scan = 'relaxed_order';
 ```
 
 ### 9. Aurora Optimized Reads & Instance Selection
