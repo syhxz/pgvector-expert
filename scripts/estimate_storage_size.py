@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-estimate_index_size.py - Estimate pgvector index memory requirements (pure calculation).
+estimate_storage_size.py - Estimate pgvector storage requirements (vector data + index) (pure calculation).
 
-Calculates the expected storage size for pgvector vector data and indexes (HNSW/IVFFlat),
+Calculates the expected storage size for pgvector vector data and indexes (HNSW/IVFFlat) combined,
 and recommends appropriate Aurora PostgreSQL instance types based on memory requirements.
 
 SECURITY NOTE:
@@ -10,9 +10,9 @@ SECURITY NOTE:
     no network access, no file system modifications. Safe to run anywhere.
 
 Usage:
-    python estimate_index_size.py --rows 10000000 --dimension 1536 --index-type hnsw
-    python estimate_index_size.py --rows 5000000 --dimension 768 --index-type ivfflat --format json
-    python estimate_index_size.py --rows 50000000 --dimension 1536 --index-type hnsw --m 32 --replicas 2
+    python estimate_storage_size.py --rows 10000000 --dimension 1536 --index-type hnsw
+    python estimate_storage_size.py --rows 5000000 --dimension 768 --index-type ivfflat --format json
+    python estimate_storage_size.py --rows 50000000 --dimension 1536 --index-type hnsw --m 32 --replicas 2
 
 Formulas:
     Vector data size:   rows × (dimension × 4 bytes + 36 bytes overhead) × 1.25 bloat / 1024³
@@ -140,9 +140,9 @@ def recommend_instance(min_memory_gib: float, replicas: int = 0) -> dict:
 def format_table(result: dict) -> str:
     """Format results as human-readable table."""
     lines = []
-    lines.append("=" * 60)
-    lines.append("  pgvector Index Size Estimation")
-    lines.append("=" * 60)
+    lines.append("=" * 64)
+    lines.append("  pgvector Storage Size Estimation (Data + Index)")
+    lines.append("=" * 64)
     lines.append("")
 
     inp = result["input"]
@@ -186,8 +186,8 @@ def format_json(result: dict) -> str:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Estimate pgvector index size and recommend Aurora instance type. (Pure calculation, no DB connection needed)",
-        epilog="Example: python estimate_index_size.py --rows 10000000 --dimension 1536 --index-type hnsw",
+        description="Estimate pgvector storage size (vector data + index) and recommend Aurora instance type. (Pure calculation, no DB connection needed)",
+        epilog="Example: python estimate_storage_size.py --rows 10000000 --dimension 1536 --index-type hnsw",
     )
     parser.add_argument("--rows", "-n", type=int, required=True, help="Number of vectors (rows)")
     parser.add_argument("--dimension", "-d", type=int, required=True, help="Vector dimension (e.g., 768, 1536)")
@@ -235,7 +235,7 @@ def main():
 
     # 组装结果
     result = {
-        "tool": "estimate_index_size",
+        "tool": "estimate_storage_size",
         "input": {
             "rows": args.rows,
             "dimension": args.dimension,
