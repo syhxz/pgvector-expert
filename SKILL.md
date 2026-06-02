@@ -638,9 +638,9 @@ LIMIT 10;
   - 索引详情（自动发现 vector/halfvec 列、索引类型与参数、大小、缓存命中率）
   - 优化建议（索引大小 vs 内存、IVFFlat lists 校准、缓存命中率、版本检查）
 
-### estimate_index_size.py
+### estimate_storage_size.py
 - **用途**: 纯计算，根据维度和行数估算索引大小及推荐实例
-- **调用**: `python3 scripts/estimate_index_size.py --rows 5000000 --dimension 1024 --index-type hnsw [--format json]`
+- **调用**: `python3 scripts/estimate_storage_size.py --rows 5000000 --dimension 1024 --index-type hnsw [--format json]`
 - **安全**: 纯本地计算，无网络访问
 - **依赖**: 无（Python 标准库）
 - **输出**: 数据大小、索引大小、总计、推荐内存、推荐实例类型
